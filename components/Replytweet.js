@@ -9,7 +9,7 @@ import { StandardInput } from "./StandardInput";
 import PopupContent from "./style/PopupContent";
 import { nanoid } from "nanoid";
 
-export default function Replytweet({ onClick, replyTweet, setReplyTweet }) {
+export default function Replytweet({ onClick, popUp, setPopUp }) {
   // const [replyTweet, setreplyTweet] = useState([]);
   const [editTweet, seteditTweet] = useState("");
   const [reply, setReply] = useState([]);
@@ -32,7 +32,7 @@ export default function Replytweet({ onClick, replyTweet, setReplyTweet }) {
 
   const Close = (event) => {
     event.stopPropagation();
-    setReplyTweet(false);
+    setPopUp(!popUp);
   };
   // useEffect(() => {
   //   url = "/replies/${id}";
@@ -44,7 +44,7 @@ export default function Replytweet({ onClick, replyTweet, setReplyTweet }) {
   // }, []);
 
   return (
-    <PopupContent height={400} w={600} top={10} left={33} onClick={onClick}>
+    <PopupContent height={400} w={600} top={10} left={33} onClick={Close}>
       <StandardInput
         placeholder="Tweet your reply?"
         value={editTweet}

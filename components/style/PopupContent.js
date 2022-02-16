@@ -4,21 +4,24 @@ import { Exite } from "../Icons/Exite";
 
 export default function PopupContent({
   w,
-  Close,
+  onClick,
   height,
   children,
   left,
   top,
+  popUp,
+  setPopUp,
 }) {
   return (
     <ContentWrapper>
       <Wrapper>
         <Container height={height} w={w} top={top} left={left}>
-          <ExiteStyle>
-            <Exite onClick={Close} />
-
-            {children}
+          <ExiteStyle onClick={onClick}>
+            <Exite />
           </ExiteStyle>
+          <div style={{ padding: "0px 16px", margin: "10px 0px" }}>
+            {children}
+          </div>
         </Container>
       </Wrapper>
     </ContentWrapper>

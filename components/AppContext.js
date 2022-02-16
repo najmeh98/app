@@ -15,7 +15,7 @@ export const AppContext = createContext({
   token: undefined,
 });
 
-export const UseAppManagerProvider = () => {
+export const UseAppManagerProvider = ({ children }) => {
   const [isLogginedIn, setisLoggedIn] = useState(false);
   const [userName, setuserName] = useState("");
   const [token, setToken] = useState(undefined);
@@ -32,6 +32,7 @@ export const UseAppManagerProvider = () => {
 
     setisLoggedIn(true);
     setuserName(savedusername);
+    console.log("AppContext.username", savedusername);
     setToken(localToken);
   }, []);
 
@@ -43,6 +44,7 @@ export const UseAppManagerProvider = () => {
 
   const Logout = useCallback(() => {
     localStorage.removeItem("username");
+    localStorage.removeItem("localToken");
     setisLoggedIn(false);
   }, []);
 
@@ -51,9 +53,9 @@ export const UseAppManagerProvider = () => {
     [Logout, Login, isLogginedIn, token, userName]
   );
 
-  return <AppContext.Provider value={value} />;
+  return <AppContext.Provider value={value}> {children} </AppContext.Provider>;
 };
 
-// export const useAppContext = () => {
-//   return useContext(AppContext);
-// };
+export const useAppContext = () => {
+  return useContext(AppContext);
+};

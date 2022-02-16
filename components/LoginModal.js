@@ -28,21 +28,22 @@ export default function LoginModal() {
       username: userName,
       password: userPassword,
     };
+    console.log(data);
     let url = "login";
     SendPostrequest(data, url)
       .then((res) => {
         console.log(res);
         setloading(false);
-        if (res?.status === 200) {
-          //localStorage.setItem("user", data);
+        if (res?.username && res?.token) {
           Login({ username: res?.username, token: res?.token });
-          router.push("./main/home");
+          // router.push("./main/home");
         }
       })
       .catch((error) => {
         setError(error);
+        setloading(false);
       });
-  }, [userName, userPassword, Login, router]);
+  }, [userName, userPassword, Login]);
 
   const HandleRegister = useCallback(() => {
     console.log(userName);
