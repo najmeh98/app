@@ -25,4 +25,5 @@ export const ExiteIcon = () => (
 const Svg = styled.svg`
   height: 32px;
   width: 32px;
+  padding-left: 20px;
 `;

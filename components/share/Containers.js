@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { notmobile } from "../utils/media";
 
 export const ContentWrapper = styled.div`
   width: 1200px;
@@ -22,9 +23,8 @@ export const Flex = styled.div`
 `;
 export const FlexRow = styled.div`
   display: flex;
-
   align-items: center;
-  //justify-content: space-between;
+  justify-content: space-between;
   text-align: center;
 `;
 export const Flex_end = styled.div`

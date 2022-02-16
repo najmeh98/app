@@ -1,3 +1,4 @@
+import { Link } from "next/link";
 import styled from "styled-components";
 
 export const StandardInput = ({
@@ -26,9 +27,9 @@ export const StandardInput = ({
 
 export const CustomButton = ({ children, onClick, loading, color }) => {
   return (
-    <Button onClick={onClick} disabled={loading}>
+    <ButtonWrapper onClick={onClick} disabled={loading}>
       {children}
-    </Button>
+    </ButtonWrapper>
   );
 };
 
@@ -50,7 +51,7 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button`
+const ButtonWrapper = styled.button`
   width: 100%;
   border-radius: 20px;
   color: ${(p) => (p.color ? (p) => p.theme.colors.buttonText : "#fff")};

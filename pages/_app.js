@@ -14,19 +14,23 @@ const theme = {
   colors: {
     primary: "#0070f3",
     buttonBackground: "#1da1f2",
+    backgeround: "#e8f5fe",
     buttonText: "#1da1f2",
+    textColor: "#50b7f5",
   },
+  fontFamily:
+    'TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
 };
 
 export default function App({ Component, pageProps }) {
-  // const getLayout = Component.getLayout || ((page) => page);
+  const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <UseAppManagerProvider>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         </UseAppManagerProvider>
       </ThemeProvider>
     </>
