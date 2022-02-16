@@ -2,11 +2,14 @@ import React from "react";
 
 export let Config = "http://localhost:4000/";
 
-export const SendPostrequest = async (data, url) => {
+export const SendPostrequest = async (data, url, token) => {
   const result = await fetch(Config + url, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
+    headers: {
+      auth_token: token,
+    },
   });
   return await result.json();
 };
