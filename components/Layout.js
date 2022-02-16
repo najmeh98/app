@@ -1,7 +1,8 @@
 import { Children, useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ContentWrapper } from "./share/Containers";
 import SlidebarOption from "./SlidebarOption";
+import { notmobile } from "./utils/media";
 
 export const Layout = ({ children }) => {
   return (
@@ -11,7 +12,7 @@ export const Layout = ({ children }) => {
         <Listtweet>
           <Main>{children}</Main>
         </Listtweet>
-        <div style={{ mathWidth: "200px", width: "100%" }}></div>
+        {/* <div style={{ mathWidth: "200px", width: "100%" }}></div> */}
       </Container>
     </ContentWrapper>
   );
@@ -35,7 +36,12 @@ const Main = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  border-right: 1px solid rgb(239, 243, 244);
-  border-left: 1px solid rgb(239, 243, 244);
+  /* border-right: 1px solid rgb(239, 243, 244); */
+  // border-left: 1px solid rgb(239, 243, 244);
   height: 100vh;
+
+  ${notmobile(css`
+    border-right: 1px solid rgb(239, 243, 244);
+    border-left: 1px solid rgb(239, 243, 244);
+  `)}
 `;
