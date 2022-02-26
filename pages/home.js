@@ -40,17 +40,29 @@ import { Avatar } from "../components/Avatar";
 import { notmobile } from "../components/utils/media";
 import axios from "axios";
 import PopupContent from "../components/style/PopupContent";
+import { Tweet } from "../components/Tweet";
+import Link from "next/link";
 
 export default function Home() {
   const [tweets, setTweets] = useState();
   const [newTweet, setNewTweet] = useState("");
-  const [activetweetId, setActivetweetId] = useState();
+  const [activetweetId, setActivetweetId] = useState(); //ایدی توییت در استیت ذخیره میکنیم برای ریپلای و .. از همون ایدی استفاده میشه
   const [replyTweet, setReplyTweet] = useState("");
   const [showReply, setshowReply] = useState();
   const [editingTweet, seteditingTweet] = useState(null);
   const [popUp, setPopUp] = useState(false);
 
   const { isLogginedIn, userName, token } = useContext(AppContext);
+
+  // برای یک توییت
+  let activeTweet =
+    tweets && tweets.find((tweet) => tweet.id === activetweetId);
+  let replies =
+    tweets && tweets.filter((tweet) => tweet.replyToId === activetweetId);
+
+  // توییت هایی که ریپلای نیستن
+
+  let mainTweets = tweets && tweets.filter((tweet) => !tweet.replyToId);
 
   let url;
   let data;
@@ -186,38 +198,55 @@ export default function Home() {
           </>
 
           <VerticalLine />
+          {/* <Tweet tweets={tweets} /> */}
           {tweets &&
             tweets.length !== 0 &&
-            tweets.map((tweet, index) => (
-              <Fragment key={tweet.id}>
-                <ContentWrapper>
-                  <div style={{ padding: "20px" }}>
-                    {/* اسم کاربر */}
-                    <p>{userName}</p>
-                    <p>{tweet.text}</p>
+            tweets.map((tweet, index) => {
+              const link = `/${tweet.author.username}/status/${tweet.id}`;
+              // <Fragment key={tweet.id}>
+              //   <ContentWrapper>
+              //     <div style={{ padding: "20px" }}>
+              return (
+                <div key={tweet.id}>
+                  {/* اسم کاربر */}
+                  {/* <p>{userName}</p>
+                    <p>{tweet.text}</p> */}
 
-                    <Item>
-                      <span
+                  {/* <Item> */}
+                  {/* <span
                         onClick={() => {
                           setPopUp(!popUp);
                           setActivetweetId(tweet.id);
+                          // بجای اینکه ایدی در استیت باشه توییت در استیت میزاریم در پاپ اپ برای نمایش توییت استفاده میکنیم
                         }}
                       >
                         <ReplyIcon />
                       </span>
                       <RetweetIcon />
+                      <LikeIcon /> */}
+                  <Tweet
+                    tweet={tweet}
+                    onClick={() => {
+                      setPopUp(!popUp);
+                      setActivetweetId(tweet.id);
+                      // بجای اینکه ایدی در استیت باشه توییت در استیت میزاریم در پاپ اپ برای نمایش توییت استفاده میکنیم
+                    }}
+                    tweetlink={link}
+                  />
 
-                      <LikeIcon />
-                      <StandardButton
-                        onClick={() => handleDeletetweet(tweet.id)}
-                      >
-                        Delete tweet
-                      </StandardButton>
-                    </Item>
-                  </div>
+                  <StandardButton
+                    onClick={() => handleDeletetweet(tweet.id)}
+                    //  style={{ display: "flex" }}
+                  >
+                    Delete tweet
+                  </StandardButton>
+                </div>
+              );
+              /* </Item> */
+              /* </div>
                 </ContentWrapper>
-              </Fragment>
-            ))}
+              </Fragment> */
+            })}
 
           {showReply &&
             showReply.length !== 0 &&
@@ -237,15 +266,16 @@ export default function Home() {
           left={33}
           onClick={() => {
             setPopUp(false);
+            setActivetweetId();
           }}
         >
           <Textarea
             cols={50}
             rows={0}
             placeholder="Tweet your reply?"
-            value={replyTweet}
+            value={newTweet}
             onChange={(event) => {
-              setReplyTweet(event.currentTarget.value);
+              setNewTweet(event.currentTarget.value);
             }}
           />
 
