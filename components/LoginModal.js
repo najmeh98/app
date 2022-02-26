@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from "react";
 import styled, { css } from "styled-components";
 import { CustomButton, StandardButton, StandardInput } from "./main";
 import { axios } from "axios";
-import { TwitterIcon } from "./home/icons/icons";
+import { TwitterLogo } from "./home/icons/icons";
 import PopupContent from "./style/PopupContent";
 import Space from "./share/Space";
 import { Center } from "./Container";
@@ -59,6 +59,7 @@ export default function LoginModal() {
       console.log(data);
 
       let url = "register";
+      // let url = "test";
       setloading(true);
 
       SendPostrequest(data, url)
@@ -106,7 +107,7 @@ export default function LoginModal() {
     <Container>
       <Center>
         <Button>
-          <TwitterIcon style={{ fontSize: "36px" }} />
+          <TwitterLogo style={{ fontSize: "36px" }} />
         </Button>
 
         <SignIn>

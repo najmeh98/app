@@ -11,10 +11,14 @@ const Button = styled.button`
   border-radius: 20px;
   border: none;
   font-weight: bold;
+  letter-spacing: 0.8px;
   padding: 10px 18px;
   //  width: 13%;
   margin-left: 5px;
   cursor: pointer;
+  &:hover {
+    background-color: rgba(26, 140, 216);
+  }
 `;
 
 // export const StyledButton = styled.button`

@@ -1,10 +1,12 @@
 import styled, { css } from "styled-components";
-import { notmobile } from "../utils/media";
+import { desktop, notmobile } from "../utils/media";
 
 export const ContentWrapper = styled.div`
-  width: 1200px;
-  max-width: calc(100% - 48px);
+  width: 1250px;
+  max-width: calc(100% - 40px);
   margin: 0 auto;
+
+  ${desktop(css``)}
 `;
 
 export const MainContainer = styled.div`
