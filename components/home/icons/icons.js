@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const TwitterIcon = () => (
+export const TwitterLogo = () => (
   <Svg
     width="40px"
     height="40px"
@@ -25,5 +25,6 @@ export const ExiteIcon = () => (
 const Svg = styled.svg`
   height: 32px;
   width: 32px;
-  padding-left: 20px;
+
+  // padding-left: 20px;
 `;
