@@ -1,49 +1,68 @@
 import styled, { css } from "styled-components";
 import router, { Router } from "next/router";
 import React, { useState } from "react";
+import { desktop, tablet } from "../utils/media";
+import { LinkButton } from "../Button/Button";
+import { Link } from "next/link";
 
 export const SidebarItem = ({
   title,
   image,
   path,
   onClick,
+  href,
   isActive,
   imageSelected,
 }) => {
   return (
-    <Items onClick={onClick} target="_blank" isActive={isActive}>
-      {isActive ? imageSelected : image}
-      <span>{title} </span>
+    <Items onClick={onClick} isActive={isActive} href={href}>
+      <Hover>
+        {isActive ? imageSelected : image}
+
+        <Span isActive={isActive}>{title} </Span>
+      </Hover>
     </Items>
   );
 };
 const Items = styled.div`
   display: flex;
   align-items: center;
-  // padding-bottom: 30px;
+  height: 100%;
+  padding: 4px;
+  overflow: hidden;
   cursor: pointer;
-  padding: 19px;
-  span {
-    padding-left: 16px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #000;
-    ${({ isActive }) =>
-      isActive &&
-      css`
-        font-weight: 700;
-      `}
+  ${desktop(css`
+    /* width: 230px; */
+  `)}
+  div {
     &:hover {
-      color: ${(p) => p.theme.colors.textColor};
-      transition: color 200ms ease-in-out;
+      transition: color 100ms ease-in-out;
+      background-color: rgba(15, 20, 25, 0.1);
+      border-radius: 50px;
     }
   }
-  &:hover {
-    transition: color 100ms ease-in-out;
-    color: ${(p) => p.theme.colors.textColor};
-    background-color: ${(p) => p.theme.colors.backgeround};
-    border-radius: 50px;
-  }
+`;
+
+const Span = styled.span`
+  padding-left: 16px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000;
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      font-weight: 700;
+    `}
+
+  ${desktop(css`
+    display: none;
+  `)}
+`;
+
+const Hover = styled.div`
+  padding: 13px;
+  display: flex;
+  align-items: center;
 `;
