@@ -21,7 +21,7 @@ import {
 } from "../components/Icons/Icons";
 import { StandardButton } from "../components/StandardButton";
 import { StandardInput } from "../components/StandardInput";
-import SlidebarOption from "../components/SlidebarOption";
+import SlidebarOption from "../components/Sidebar/SlidebarOption";
 import {
   Flex,
   FlexRow,
@@ -42,6 +42,7 @@ import axios from "axios";
 import PopupContent from "../components/style/PopupContent";
 import { Tweet } from "../components/Tweet";
 import Link from "next/link";
+import Media from "../components/Media";
 
 export default function Home() {
   const [tweets, setTweets] = useState();
@@ -57,6 +58,7 @@ export default function Home() {
   // برای یک توییت
   let activeTweet =
     tweets && tweets.find((tweet) => tweet.id === activetweetId);
+  console.log(activeTweet);
   let replies =
     tweets && tweets.filter((tweet) => tweet.replyToId === activetweetId);
 
@@ -141,79 +143,52 @@ export default function Home() {
 
   return (
     <>
-      <Main>
-        <Wrapper>
-          <>
-            <Header>
-              <h3>Home</h3>
-              <Button icon>
-                <TimelineProp />
-              </Button>
-            </Header>
+      <Layout>
+        <>
+          <Header>
+            <h3>Home</h3>
+            <Button icon>
+              <TimelineProp />
+            </Button>
+          </Header>
 
-            <Space vertical={20} />
-            <Container>
-              <Avatar src="/images/girl.jpg" />
-              <Flex>
-                <Textarea
-                  cols={50}
-                  rows={0}
-                  placeholder="What's the happening?"
-                  value={newTweet}
-                  onChange={(event) => {
-                    setNewTweet(event.currentTarget.value);
-                  }}
-                />
+          <Space vertical={20} />
+          <Container>
+            <Avatar src="/images/girl.jpg" />
+            <Flex>
+              <Textarea
+                cols={50}
+                rows={0}
+                placeholder="What's the happening?"
+                value={newTweet}
+                onChange={(event) => {
+                  setNewTweet(event.currentTarget.value);
+                }}
+              />
 
+              <FlexRow>
                 {/* Icon */}
-                <FlexRow>
-                  <div style={{ display: "flex", alinItems: "center" }}>
-                    <label htmlFor="file-input" style={{ cursor: "pointer" }}>
-                      <Button icon>
-                        <MediaIcon />
-                      </Button>
-                    </label>
-                    <label htmlFor="file-input" style={{ cursor: "pointer" }}>
-                      <Button icon>
-                        <GifIcon />
-                      </Button>
-                    </label>
-                    <label htmlFor="file-input" style={{ cursor: "pointer" }}>
-                      <Button icon>
-                        <EmpjiIcon />
-                      </Button>
-                    </label>
-                  </div>
-                  {/* <Flex_end> */}
-                  <StandardButton onClick={handleSubmit}>
-                    {" "}
-                    Tweet{" "}
-                  </StandardButton>
-                  {/* </Flex_end> */}
-                </FlexRow>
-              </Flex>
-            </Container>
+                <Media />
+                {/* Icon */}
+                <StandardButton onClick={handleSubmit}> Tweet </StandardButton>
+              </FlexRow>
+            </Flex>
+          </Container>
 
-            <VerticalSpace height="10px" />
-          </>
+          <VerticalSpace height="10px" />
+        </>
 
-          <VerticalLine />
-          {/* <Tweet tweets={tweets} /> */}
-          {tweets &&
-            tweets.length !== 0 &&
-            tweets.map((tweet, index) => {
-              const link = `/${tweet.author.username}/status/${tweet.id}`;
-              // <Fragment key={tweet.id}>
-              //   <ContentWrapper>
-              //     <div style={{ padding: "20px" }}>
-              return (
-                <div key={tweet.id}>
-                  {/* اسم کاربر */}
-                  {/* <p>{userName}</p>
-                    <p>{tweet.text}</p> */}
+        <VerticalLine />
+        {/* <Tweet tweets={tweets} /> */}
+        {tweets &&
+          tweets.length !== 0 &&
+          tweets.map((tweet, index) => {
+            const link = `/${tweet.author.username}/status/${tweet.id}`;
 
-                  {/* <Item> */}
-                  {/* <span
+            return (
+              <div key={tweet.id}>
+                {/* <Item> */}
+                {/* <span
                         onClick={() => {
                           setPopUp(!popUp);
                           setActivetweetId(tweet.id);
@@ -224,40 +199,39 @@ export default function Home() {
                       </span>
                       <RetweetIcon />
                       <LikeIcon /> */}
-                  <Tweet
-                    tweet={tweet}
-                    onClick={() => {
-                      setPopUp(!popUp);
-                      setActivetweetId(tweet.id);
-                      // بجای اینکه ایدی در استیت باشه توییت در استیت میزاریم در پاپ اپ برای نمایش توییت استفاده میکنیم
-                    }}
-                    tweetlink={link}
-                  />
+                <Tweet
+                  tweet={tweet}
+                  onClick={() => {
+                    setPopUp(!popUp);
+                    setActivetweetId(tweet.id);
+                    // بجای اینکه ایدی در استیت باشه توییت در استیت میزاریم در پاپ اپ برای نمایش توییت استفاده میکنیم
+                  }}
+                  tweetId={tweet.id}
+                  tweetText={tweet.text}
+                  tweetAuthor={tweet.author.username}
+                  tweets={tweets}
+                  tweetlink={link}
+                />
 
-                  <StandardButton
-                    onClick={() => handleDeletetweet(tweet.id)}
-                    //  style={{ display: "flex" }}
-                  >
-                    Delete tweet
-                  </StandardButton>
-                </div>
-              );
-              /* </Item> */
-              /* </div>
-                </ContentWrapper>
-              </Fragment> */
-            })}
+                <StandardButton
+                  onClick={() => handleDeletetweet(tweet.id)}
+                  //  style={{ display: "flex" }}
+                >
+                  Delete tweet
+                </StandardButton>
+              </div>
+            );
+          })}
 
-          {showReply &&
-            showReply.length !== 0 &&
-            showReply.map((data, index) => (
-              //console.log(reply);
-              <ContentWrapper key={data.id} style={{ paddingLeft: "30px" }}>
-                {data.text}
-              </ContentWrapper>
-            ))}
-        </Wrapper>
-      </Main>
+        {showReply &&
+          showReply.length !== 0 &&
+          showReply.map((data, index) => (
+            //console.log(reply);
+            <ContentWrapper key={data.id} style={{ paddingLeft: "30px" }}>
+              {data.text}
+            </ContentWrapper>
+          ))}
+      </Layout>
       {popUp && (
         <PopupContent
           height={300}
@@ -294,29 +268,10 @@ export default function Home() {
 //! از این روش در همه ی صفحه ها میخواستم استفاده کنم ولی اجرا نمیشه
 // که نیازی به تعریف sildbarItem
 //در صفحه اصلی نباشه
-Home.getLayout = (page) => {
-  return <Layout>{page}</Layout>;
-};
-const Main = styled.div`
-  max-width: 610px;
-  width: 100%;
-  // margin: auto;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  ${notmobile(css`
-    border-right: 1px solid rgb(239, 243, 244);
-    border-left: 1px solid rgb(239, 243, 244);
-  `)}
-`;
+// Home.getLayout = (page) => {
+//   return <Layout>{page}</Layout>;
+// };
 
-const Wrapper = styled.div`
-  // border-right: 1px solid rgb(239, 243, 244);
-  //border-left: 1px solid rgb(239, 243, 244);
-  height: 100vh;
-  width: 100%;
-`;
 const Item = styled.div`
   display: flex;
   align-items: center;
@@ -334,7 +289,7 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const Textarea = styled.textarea`
+export const Textarea = styled.textarea`
   font-family: ${(p) => p.theme.fontFamily};
   border: none;
   outline: none;
