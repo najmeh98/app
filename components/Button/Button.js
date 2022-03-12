@@ -6,9 +6,9 @@ const BaseButton = ({ children, ...props }) => {
   return <button {...props}> {children}</button>;
 };
 
-export const LinkButton = ({ href, children, ...props }) => {
+export const LinkButton = ({ href, children }) => {
   return (
-    <Link href={href} {...props} passHref>
+    <Link href={href} passHref>
       <a>{children}</a>
     </Link>
   );
