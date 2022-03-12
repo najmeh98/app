@@ -93,8 +93,8 @@ export const LikeIcon = () => (
   </Svg>
 );
 
-export const TimelineProp = ({ ...props }) => (
-  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" {...props}>
+export const TimelineProp = (props) => (
+  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none">
     <path
       d="M22.772 10.506l-5.618-2.192-2.16-6.5a.751.751 0 00-1.424-.001l-2.16 6.5-5.62 2.192a.751.751 0 00.001 1.398l5.62 2.192 2.16 6.5a.752.752 0 001.424 0l2.16-6.5 5.62-2.192a.751.751 0 00-.001-1.397h-.002zm-6.49 2.32a.748.748 0 00-.44.46l-1.56 4.695-1.56-4.693a.753.753 0 00-.438-.462l-4.155-1.62 4.154-1.622c.208-.08.37-.25.44-.462l1.56-4.693 1.56 4.694c.07.212.23.382.438.463l4.155 1.62-4.155 1.622.001-.002zM6.663 3.812h-1.88V2.05a.75.75 0 00-1.5 0v1.762H1.5a.75.75 0 000 1.5h1.782v1.762a.75.75 0 001.5 0V5.312h1.88a.75.75 0 100-1.5h.001zm2.535 15.622h-1.1v-1.016a.75.75 0 10-1.5 0v1.016H5.57a.75.75 0 000 1.5H6.6v1.016a.75.75 0 101.5 0v-1.016h1.098a.75.75 0 000-1.5z"
       fill="currentColor"
@@ -102,8 +102,8 @@ export const TimelineProp = ({ ...props }) => (
   </svg>
 );
 
-export const MediaIcon = ({ ...props }) => (
-  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" {...props}>
+export const MediaIcon = (props) => (
+  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" props>
     <path
       d="M19.75 2H4.25C3.01 2 2 3.01 2 4.25v15.5C2 20.99 3.01 22 4.25 22h15.5c1.24 0 2.25-1.01 2.25-2.25V4.25C22 3.01 20.99 2 19.75 2zM4.25 3.5h15.5c.413 0 .75.337.75.75v9.676l-3.858-3.858a.75.75 0 00-.53-.22h-.003a.74.74 0 00-.532.224l-4.317 4.384-1.813-1.806a.75.75 0 00-.53-.22c-.193-.03-.395.08-.535.227L3.5 17.642V4.25c0-.413.337-.75.75-.75zm-.744 16.28l5.418-5.534 6.282 6.254H4.25a.75.75 0 01-.744-.72zm16.244.72h-2.42l-5.007-4.987 3.792-3.85 4.385 4.384v3.703c0 .413-.337.75-.75.75z"
       fill="currentColor"
@@ -114,8 +114,8 @@ export const MediaIcon = ({ ...props }) => (
     />
   </svg>
 );
-export const GifIcon = ({ ...props }) => (
-  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" {...props}>
+export const GifIcon = (props) => (
+  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none">
     <path
       d="M19 10.5V8.8h-4.4v6.4h1.7v-2h2v-1.7h-2v-1H19zm-7.3-1.7h1.7v6.4h-1.7V8.8zm-3.6 1.6c.4 0 .9.2 1.2.5l1.2-1C9.9 9.2 9 8.8 8.1 8.8c-1.8 0-3.2 1.4-3.2 3.2 0 1.8 1.4 3.2 3.2 3.2 1 0 1.8-.4 2.4-1.1v-2.5H7.7v1.2h1.2v.6c-.2.1-.5.2-.8.2-.9 0-1.6-.7-1.6-1.6 0-.8.7-1.6 1.6-1.6z"
       fill="currentColor"
@@ -127,8 +127,8 @@ export const GifIcon = ({ ...props }) => (
   </svg>
 );
 
-export const EmpjiIcon = ({ ...props }) => (
-  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" {...props}>
+export const EmpjiIcon = (props) => (
+  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none">
     <path
       d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"
       fill="currentColor"
@@ -140,11 +140,30 @@ export const EmpjiIcon = ({ ...props }) => (
   </svg>
 );
 
-export const NewTweet = ({ ...props }) => (
-  <svg width="1em" height="1em" viewBox="0 0 24 24" {...props}>
+export const NewTweet = (props) => (
+  <svg width="1em" height="1em" viewBox="0 0 24 24">
     <path
       fill="currentColor"
       d="M8.8 7.2H5.6V3.9c0-.4-.3-.8-.8-.8s-.7.4-.7.8v3.3H.8c-.4 0-.8.3-.8.8s.3.8.8.8h3.3v3.3c0 .4.3.8.8.8s.8-.3.8-.8V8.7H9c.4 0 .8-.3.8-.8s-.5-.7-1-.7zm15-4.9v-.1h-.1c-.1 0-9.2 1.2-14.4 11.7-3.8 7.6-3.6 9.9-3.3 9.9.3.1 3.4-6.5 6.7-9.2 5.2-1.1 6.6-3.6 6.6-3.6s-1.5.2-2.1.2c-.8 0-1.4-.2-1.7-.3 1.3-1.2 2.4-1.5 3.5-1.7.9-.2 1.8-.4 3-1.2 2.2-1.6 1.9-5.5 1.8-5.7z"
     ></path>
+  </svg>
+);
+
+export const ShareICon = (props) => (
+  <svg viewBox="0 0 24 24" height="20px" width="20px" aria-hidden="true">
+    <g>
+      <path d="M17.53 7.47l-5-5c-.293-.293-.768-.293-1.06 0l-5 5c-.294.293-.294.768 0 1.06s.767.294 1.06 0l3.72-3.72V15c0 .414.336.75.75.75s.75-.336.75-.75V4.81l3.72 3.72c.146.147.338.22.53.22s.384-.072.53-.22c.293-.293.293-.767 0-1.06z"></path>
+      <path d="M19.708 21.944H4.292C3.028 21.944 2 20.916 2 19.652V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 .437.355.792.792.792h15.416c.437 0 .792-.355.792-.792V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 1.264-1.028 2.292-2.292 2.292z"></path>
+    </g>
+  </svg>
+);
+
+export const Dot = () => (
+  <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true">
+    <g>
+      <circle cx="5" cy="12" r="2"></circle>
+      <circle cx="12" cy="12" r="2"></circle>
+      <circle cx="19" cy="12" r="2"></circle>
+    </g>
   </svg>
 );
