@@ -12,7 +12,7 @@ export const notmobile = (inner) => css`
   }
 `;
 export const desktop = (body) => css`
-  @media (min-width: 1024px) {
+  @media (max-width: 1300px) {
     ${body};
   }
 `;
@@ -23,7 +23,7 @@ export const largeDescktop = (body) => css`
 `;
 
 export const tablet = (inner) => css`
-  @media (max-width: 1170px) {
+  @media (min-width: 500px) and (max-width: 1270px) {
     ${inner};
   }
 `;
