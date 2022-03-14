@@ -2,21 +2,23 @@ import { Children, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { SearchTweet } from "./searchTweet/SearchTweet";
 import { ContentWrapper } from "./share/Containers";
+import Space from "./share/Space";
 import SlidebarOption from "./Sidebar/SlidebarOption";
+import { useTheme } from "./Theme/ThemeContext";
 import { notmobile } from "./utils/media";
 
 export const Layout = ({ children }) => {
+  let { theme } = useTheme();
   return (
-    <ContentWrapper style={{ display: "flex", flex: "1 1 1" }}>
-      <Container>
-        <SlidebarOption />
-        {/* <Listtweet> */}
-        <Main>{children}</Main>
-        {/* </Listtweet> */}
-        {/* <div style={{ mathWidth: "200px", width: "100%" }}></div> */}
-        <SearchTweet />
-      </Container>
-    </ContentWrapper>
+    <div style={{ backgroundColor: theme.backgroundColor }}>
+      <ContentWrapper style={{ display: "flex", flex: "1 1 1" }}>
+        <Container>
+          <SlidebarOption />
+          <Main>{children}</Main>
+          <SearchTweet />
+        </Container>
+      </ContentWrapper>
+    </div>
   );
 };
 
@@ -28,10 +30,17 @@ const Listtweet = styled.div`
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  /* overflow-y: auto; */
 `;
 
 const Main = styled.div`
   width: 100%;
-  min-width: 600px;
+  max-width: 600px;
+  ${notmobile(css`
+    border-right: 1px solid rgb(239, 243, 244);
+    border-left: 1px solid rgb(239, 243, 244);
+  `)}
 `;
