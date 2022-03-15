@@ -1,15 +1,19 @@
 import React from "react";
 import styled, { css } from "styled-components";
-export default function Text({ children }) {
-  return <Paragraph>{children}</Paragraph>;
+
+export default function Titel({ children, mode, size }) {
+  return (
+    <Paragraph mode size>
+      {children}
+    </Paragraph>
+  );
 }
-const Paragraph = styled.p`
-  font-size: 15px;
+const Paragraph = styled.div`
+  font-size: ${(p) => p.size}px;
   line-height: 20px;
   color: rgb(15, 20, 25);
   cursor: pointer;
   padding: 16px;
-  &:hover {
-    background-color: rgba(247, 249, 249);
-  }
+  margin: 0px;
+  font-weight: ${(p) => p.mode};
 `;
