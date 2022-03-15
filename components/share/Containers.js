@@ -5,9 +5,7 @@ export const ContentWrapper = styled.div`
   width: 1250px;
   max-width: calc(100% - 40px);
   margin: 0 auto;
-  height: 100vh;
-  ${desktop(css``)}
-  overflow: hidden;
+  min-height: 100vh;
 `;
 
 export const MainContainer = styled.div`
