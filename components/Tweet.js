@@ -15,6 +15,9 @@ import Link from "next/link";
 // import Text from "./utils/text";
 import { Avatar } from "./Avatar";
 import Media from "./Media";
+import { useTheme } from "./Theme/ThemeContext";
+import Menu from "./UserInfo/Menu";
+import Titel from "./utils/text";
 export const Tweet = ({
   tweet,
   onClick,
@@ -26,7 +29,9 @@ export const Tweet = ({
   createdAt,
 }) => {
   const router = useRouter();
-
+  let { theme } = useTheme();
+  console.log(theme);
+  console.log(theme.tweetColor.replyHover);
   // حذف توییت
   const handleDeletetweet = (id) => {
     if (!id) return;
@@ -45,68 +50,91 @@ export const Tweet = ({
   return (
     <>
       <Wrapper>
-        <Link href={`${tweetAuthor}/status/${tweetId}`}>
-          <a>
-            {/* اسم کاربر */}
-            <Container>
-              <div
-                style={{
-                  display: "flex",
-                  height: "100%",
-                  alignItems: "flex-start",
-                }}
+        {/* <Link href={`${tweetAuthor}/status/${tweetId}`}>
+          <a> */}
+        {/* اسم کاربر */}
+        <Container>
+          <div
+            style={{
+              display: "flex",
+              height: "100%",
+              alignItems: "flex-start",
+            }}
+          >
+            <Avatar />
+          </div>
+          <Content>
+            <FlexRow style={{ width: "100%", margin: "2px" }}>
+              <Row>
+                <Text mode={900} size={17} color={theme.color.all_text_icon}>
+                  {tweetAuthor}
+                </Text>
+                <Text color>@{tweetAuthor}</Text>
+                <Text color>.</Text>
+                <Text mode={400} size={15} color>
+                  {createdAt}
+                </Text>
+              </Row>
+              <Item
+                bgColor={theme.tweetColor.replyHover}
+                hovercolor="rgb(29, 155, 240)"
               >
-                <Avatar />
-              </div>
-              <Content>
-                <FlexRow style={{ width: "100%", margin: "2px" }}>
-                  <Row>
-                    {/* <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  > */}
-                    <Text mode={900} size={17}>
-                      {tweetAuthor}
-                    </Text>
-                    <Text color>@{tweetAuthor}</Text>
-                    <Text color>.</Text>
-                    <Text mode={400} size={15} color>
-                      {createdAt}
-                    </Text>
-                    {/* </div> */}
-                  </Row>
-                  <Dot />
-                </FlexRow>
-                <Text>{tweetText}</Text>
+                {/* <Dot /> */}
+                <Menu
+                  title={<Dot />}
+                  width={160}
+                  style={{
+                    right: "90px",
+                    borderRadius: "8px",
+                    bottom: "-35px",
+                  }}
+                  onClick={() => handleDeletetweet(tweet.id)}
+                >
+                  <Titel> Delete tweet</Titel>
+                </Menu>
+              </Item>
+            </FlexRow>
+            <Text>{tweetText}</Text>
 
-                {/* third Row */}
-                <FlexRow style={{ width: "425px", marginTop: "12px" }}>
-                  <Item
-                    onClick={onClick}
-                    hovercolor="rgb(29, 155, 240)"
-                    className="color"
-                  >
-                    <ReplyIcon />
-                    <p>100</p>
-                  </Item>
-                  <Item hovercolor="rgb(0, 186, 124)">
-                    <RetweetIcon />
-                    <p>100</p>
-                  </Item>
+            {/* third Row */}
+            <FlexRow style={{ width: "425px", marginTop: "12px" }}>
+              <Item
+                onClick={onClick}
+                hovercolor={theme.tweetColor.reply}
+                bgColor={theme.tweetColor.replyHover}
+                // style={{ backgroundColor: theme.tweetColor.replyHover }}
+              >
+                <ReplyIcon />
+                <p>100</p>
+              </Item>
+              <Item
+                hovercolor={theme.tweetColor.retweet}
+                bgColor={theme.tweetColor.retweetHover}
+              >
+                <RetweetIcon />
+                <p>100</p>
+              </Item>
 
-                  <Item hovercolor="rgb(249, 24, 128)">
-                    <LikeIcon />
-                    <p>100</p>
-                  </Item>
+              <Item
+                hovercolor={theme.tweetColor.like}
+                bgColor={theme.tweetColor.likeHover}
+              >
+                <LikeIcon />
+                <p>100</p>
+              </Item>
 
-                  <Item hovercolor="rgb(29, 155, 240)">
-                    <ShareICon />
-                    <p>100</p>
-                  </Item>
-                </FlexRow>
-              </Content>
-            </Container>
-          </a>
-        </Link>
+              <Item
+                hovercolor={theme.tweetColor.share}
+                bgColor={theme.tweetColor.shareHover}
+              >
+                <ShareICon />
+                <p>100</p>
+              </Item>
+            </FlexRow>
+          </Content>
+        </Container>
+        {/* </a>
+        </Link> */}
       </Wrapper>
     </>
   );
@@ -115,7 +143,7 @@ export const Tweet = ({
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  border-bottom: 1px solid rgb(47, 51, 54);
+  border-bottom: 1px solid ${(p) => p.theme.color.borderColor};
 `;
 
 const Container = styled.div`
@@ -139,23 +167,27 @@ const Item = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: color 0.2s ease background-color 0.2s ease;
+  transition: color 0.3s ease background-color 0.3s ease;
   p {
     padding-left: 12px;
     padding-right: 12px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 16px;
     margin: 0px;
     color: black;
   }
+  svg {
+    padding: 7px;
+  }
 
   &:hover {
     fill: ${({ hovercolor }) => hovercolor};
-    /* background-color: rgba(0, 0, 0, 0); */
-    border-radius: 50px;
-    /* background-color: ${({ hovercolor }) => hovercolor}; */
     p {
       color: ${({ hovercolor }) => hovercolor};
+    }
+    svg {
+      background-color: ${({ bgColor }) => bgColor};
+      border-radius: 50px;
     }
   }
   /* &.color:hover {
@@ -166,8 +198,9 @@ const Item = styled.div`
 const Text = styled.p`
   font-size: ${(p) => p.size}px;
   line-height: 20px;
-  color: rgb(15, 20, 25);
-  /* color: rgba(217, 217, 217, 1);   رنگ  متن برای تم دارک */
+  color: ${({ theme }) => theme.color.all_text_icon};
+  /* color: rgba(217, 217, 217, 1); */
+  color: ${({ color }) => color};
   cursor: pointer;
   margin: 0px;
   /* padding: 16px; */
@@ -177,7 +210,7 @@ const Text = styled.p`
     p.color &&
     css`
       margin-left: 4px;
-      color: rgb(110, 118, 125);
+      color: ${(p) => p.theme.color.all_text_icon};
     `}
 `;
 
