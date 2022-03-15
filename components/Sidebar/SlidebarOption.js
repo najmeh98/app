@@ -35,6 +35,7 @@ import Branding from "../Branding";
 import useWindowSize from "../hooks/useWindowSize";
 import Menu from "../UserInfo/Menu";
 import Text from "../utils/text";
+import Titel from "../utils/text";
 
 const SlidebarData = [
   {
@@ -89,6 +90,7 @@ const SlidebarData = [
 
 export default function SlidebarOption() {
   const [isClick, setisClick] = useState("");
+  const [popUp, setPopUp] = useState(false);
   const { Logout, userName } = useContext(AppContext);
   let { width } = useWindowSize();
 
@@ -118,7 +120,7 @@ export default function SlidebarOption() {
   return (
     // استایل پوزیشن فیکس برای اینجا
     // style={{ position: "fixed", overflowX: "hidden", overflowY: "auto" }}
-    <div>
+    <>
       <Wrapper>
         <div>
           <Button icon>
@@ -127,7 +129,9 @@ export default function SlidebarOption() {
           <ul style={{ paddingLeft: "0px", margin: "0px" }}>
             {SlidebarData.map((item, index) => (
               <SidebarItem
-                onClick={() => item.path && router.push(item.path)}
+                onClick={() =>
+                  item.path ? router.push(item.path) : setPopUp(true)
+                }
                 href={item.path}
                 {...item}
                 key={index}
@@ -145,10 +149,15 @@ export default function SlidebarOption() {
             </Button>
           )}
         </div>
-        <Menu title={Profile} ArrowIcon={<ArrowIcon size={20} fill="#fff" />}>
-          <Text>Add an existind accounts</Text>
-          <Text>Manage accounts</Text>
-          <Text onClick={() => Logout()}>Log out @{userName}</Text>
+        <Menu
+          title={Profile}
+          ArrowIcon={<ArrowIcon size={20} fill="#fff" />}
+          width={250}
+          style={{ borderRadius: "16px", bottom: "77px" }}
+        >
+          <Titel>Add an existind accounts</Titel>
+          <Titel>Manage accounts</Titel>
+          <Titel onClick={() => Logout()}>Log out @{userName}</Titel>
         </Menu>
 
         {/* {width > 500 && width <= 1300 ? (
@@ -159,7 +168,7 @@ export default function SlidebarOption() {
         {/* <Space horizontal={250} /> */}
       </Wrapper>
       {/* <Space horizontal={350} /> */}
-    </div>
+    </>
   );
 }
 
@@ -188,19 +197,11 @@ const Tweet = styled.div`
 `;
 
 const Wrapper = styled.div`
-  /* height: 100%; */
-  /* position: fixed; */
-  /* padding-right: 16px; */
-  /* height: 100vh; */
-  /* max-width: 270px; */
-  /* position: sticky; */
-  /* overflow-y: auto; */
-  /* overflow-x: hidden; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  height: 100vh;
+  /* height: 100vh; */
   ${desktop(css`
     //width: 270px;
   `)}
