@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import link from "next/Link";
 import styled, { css } from "styled-components";
 import router, { useRouter } from "next/router";
@@ -36,13 +36,14 @@ import useWindowSize from "../hooks/useWindowSize";
 import Menu from "../UserInfo/Menu";
 import Text from "../utils/text";
 import Titel from "../utils/text";
+import { Row } from "../Header";
 
 const SlidebarData = [
   {
     title: "Home",
     image: <Home />,
     imageSelected: <HomeFill />,
-    path: "/home",
+    path: "/",
   },
   {
     title: "Explore",
@@ -93,8 +94,13 @@ export default function SlidebarOption() {
   const [popUp, setPopUp] = useState(false);
   const { Logout, userName } = useContext(AppContext);
   let { width } = useWindowSize();
-
   const router = useRouter();
+  const { isLogginedIn } = useContext(AppContext);
+  useEffect(() => {
+    if (isLogginedIn) {
+      router.push({ pathname: "/home" });
+    }
+  }, [isLogginedIn, router]);
 
   let Profile = (
     <User>
@@ -119,62 +125,53 @@ export default function SlidebarOption() {
 
   return (
     // استایل پوزیشن فیکس برای اینجا
-    // style={{ position: "fixed", overflowX: "hidden", overflowY: "auto" }}
-    <>
-      <Wrapper>
-        <div>
-          <Button icon>
-            <Branding />
+    <Column>
+      {/* <Wrapper> */}
+      <div>
+        <Button icon>
+          <Branding />
+        </Button>
+        <ul style={{ paddingLeft: "0px", margin: "0px" }}>
+          {SlidebarData.map((item, index) => (
+            <SidebarItem
+              onClick={() =>
+                item.path ? router.push(item.path) : setPopUp(true)
+              }
+              href={item.path}
+              {...item}
+              key={index}
+              isActive={router.asPath.includes(item.path)}
+              //  isActive= {router.pathname === item.path}
+            />
+          ))}
+        </ul>
+        <Space vertical={10} />
+        <Tweet>Tweet </Tweet>
+
+        {width > 500 && width < 1270 && (
+          <Button new>
+            <NewTweet />
           </Button>
-          <ul style={{ paddingLeft: "0px", margin: "0px" }}>
-            {SlidebarData.map((item, index) => (
-              <SidebarItem
-                onClick={() =>
-                  item.path ? router.push(item.path) : setPopUp(true)
-                }
-                href={item.path}
-                {...item}
-                key={index}
-                isActive={router.asPath.includes(item.path)}
-                //  isActive= {router.pathname === item.path}
-              />
-            ))}
-          </ul>
-          <Space vertical={10} />
-          <Tweet>Tweet </Tweet>
-
-          {width > 500 && width < 1270 && (
-            <Button new>
-              <NewTweet />
-            </Button>
-          )}
-        </div>
-        <Menu
-          title={Profile}
-          ArrowIcon={<ArrowIcon size={20} fill="#fff" />}
-          width={250}
-          style={{ borderRadius: "16px", bottom: "77px" }}
-        >
-          <Titel>Add an existind accounts</Titel>
-          <Titel>Manage accounts</Titel>
-          <Titel onClick={() => Logout()}>Log out @{userName}</Titel>
-        </Menu>
-
-        {/* {width > 500 && width <= 1300 ? (
-        <Space horizontal={50} />
-      ) : (
-        <Space horizontal={250} />
-      )} */}
-        {/* <Space horizontal={250} /> */}
-      </Wrapper>
-      {/* <Space horizontal={350} /> */}
-    </>
+        )}
+      </div>
+      <Menu
+        title={Profile}
+        ArrowIcon={<ArrowIcon size={20} fill="#fff" />}
+        width={250}
+        style={{ borderRadius: "16px", bottom: "77px" }}
+      >
+        <Titel>Add an existind accounts</Titel>
+        <Titel>Manage accounts</Titel>
+        <Titel onClick={() => Logout()}>Log out @{userName}</Titel>
+      </Menu>
+      {/* </Wrapper> */}
+    </Column>
   );
 }
 
 const Tweet = styled.div`
   background-color: rgb(29, 155, 240);
-  box-shadow: rgb(0, 0, 0, 0.22) 0px 8px 28px;
+  box-shadow: rgb(0, 0, 0, 0.1) 0px 8px 28px;
   transition-duration: 0.2s;
   cursor: pointer;
   display: flex;
@@ -197,17 +194,22 @@ const Tweet = styled.div`
 `;
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+`;
+const Column = styled.div`
   align-items: flex-start;
+  width: 100%;
+  position: sticky;
+  height: 100vh;
   justify-content: space-between;
-  /* height: 100vh; */
-  ${desktop(css`
-    //width: 270px;
-  `)}
-  ${tablet(css`
-    //  width: 88px;
-  `)}
+  flex-direction: column;
+  display: flex;
+  right: 0px;
+  top: 0px;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const Dot = styled.div`
