@@ -2,7 +2,7 @@ import React from "react";
 
 export let Config = "http://localhost:4000/";
 
-export const SendPostrequest = async (data, url, token) => {
+export const SendPostrequest = async (url, data, token) => {
   const result = await fetch(Config + url, {
     method: "post",
     headers: { "Content-Type": "application/json" },
