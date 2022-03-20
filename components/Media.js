@@ -16,7 +16,7 @@ export default function Media() {
       <Button icon>
         <EmpjiIcon />
       </Button>
-      <ShareICon />
+      {/* <ShareICon /> */}
     </div>
   );
 }
