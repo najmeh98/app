@@ -1,9 +1,10 @@
 import router, { useRouter } from "next/router";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { AppContext } from "./AppContext";
 import {
   Dot,
+  LikeFillIcon,
   LikeIcon,
   ReplyIcon,
   RetweetIcon,
@@ -18,6 +19,8 @@ import Media from "./Media";
 import { useTheme } from "./Theme/ThemeContext";
 import Menu from "./UserInfo/Menu";
 import Titel from "./utils/text";
+import { TimeSince, timeSince } from "./utils/timeSince";
+import { SendPostrequest } from "./Api";
 export const Tweet = ({
   tweet,
   onClick,
@@ -27,9 +30,13 @@ export const Tweet = ({
   tweetId,
   tweetlink,
   createdAt,
+  setTweets,
 }) => {
   const router = useRouter();
   let { theme } = useTheme();
+
+  const [likeTweet, setLikeTweet] = useState(false);
+
   console.log(theme);
   console.log(theme.tweetColor.replyHover);
   // حذف توییت
@@ -44,14 +51,56 @@ export const Tweet = ({
     setTweets([...tweets.slice(0, index), ...tweets.slice(index + 1)]);
   };
 
+  const handleLikeTweet = (id) => {
+    if (!id) return;
+
+    SendPostrequest(`toggleLike/${id}`)
+      .then((res) => {
+        console.log(res);
+        setLikeTweet(true);
+        console.log(likeTweet);
+      })
+      .catch((error) => {
+        console.log(error);
+        // setLikeTweet(false);
+      });
+    let index = tweets.findIndex((p) => p.id === id);
+    setTweets([
+      ...tweets.slice(0, index),
+      { ...tweets[index], likes: tweets[index].likes + 1 },
+      ...tweets.slice(index + 1),
+    ]);
+  };
+  const handleUnlikeTweet = () => {
+    if (!id) return;
+    SendPostrequest(`toggleunlike/:id`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    let index = tweets.findIndex((p) => p.id === id);
+    let count = tweets[index].likes - 1;
+    setTweets([
+      ...tweet.slice(0, index),
+      { ...tweets[index], likes: count > 1 ? count : 1 },
+      ...tweets.slice(index + 1),
+    ]);
+  };
+
+  // useEffect(() => {
+  //   setLikeTweet(true);
+  // }, []);
+  console.log(likeTweet);
+
   // let tweetAuthor = tweet?.author && tweet.author.username;
   //let tweetId = tweet?.id && tweet.id;
   const { userName } = useContext(AppContext);
   return (
     <>
       <Wrapper>
-        {/* <Link href={`${tweetAuthor}/status/${tweetId}`}>
-          <a> */}
         {/* اسم کاربر */}
         <Container>
           <div
@@ -72,7 +121,7 @@ export const Tweet = ({
                 <Text color>@{tweetAuthor}</Text>
                 <Text color>.</Text>
                 <Text mode={400} size={15} color>
-                  {createdAt}
+                  {TimeSince(createdAt)}
                 </Text>
               </Row>
               <Item
@@ -105,22 +154,29 @@ export const Tweet = ({
                 // style={{ backgroundColor: theme.tweetColor.replyHover }}
               >
                 <ReplyIcon />
-                <p>100</p>
+                <p>{}</p>
               </Item>
               <Item
                 hovercolor={theme.tweetColor.retweet}
                 bgColor={theme.tweetColor.retweetHover}
               >
                 <RetweetIcon />
-                <p>100</p>
+                <p>{}</p>
               </Item>
 
               <Item
                 hovercolor={theme.tweetColor.like}
                 bgColor={theme.tweetColor.likeHover}
+                onClick={() => handleLikeTweet(tweet.id)}
               >
-                <LikeIcon />
-                <p>100</p>
+                {tweet.likes && tweet.likes > 0 ? (
+                  <LikeFillIcon colorFill={theme.tweetColor.like} />
+                ) : (
+                  <LikeIcon />
+                )}
+
+                {tweet.likes && tweet.likes > 0 ? <p>{tweet.likes}</p> : ""}
+                {/* {tweet.likes && tweet.likes !== 0 && <p>{tweet.likes}</p>} */}
               </Item>
 
               <Item
@@ -128,13 +184,11 @@ export const Tweet = ({
                 bgColor={theme.tweetColor.shareHover}
               >
                 <ShareICon />
-                <p>100</p>
+                <p>{}</p>
               </Item>
             </FlexRow>
           </Content>
         </Container>
-        {/* </a>
-        </Link> */}
       </Wrapper>
     </>
   );
@@ -169,8 +223,8 @@ const Item = styled.div`
   justify-content: space-between;
   transition: color 0.3s ease background-color 0.3s ease;
   p {
-    padding-left: 12px;
-    padding-right: 12px;
+    /* padding-left: 6px;
+    padding-right: 6px; */
     font-size: 14px;
     line-height: 16px;
     margin: 0px;
@@ -178,6 +232,7 @@ const Item = styled.div`
   }
   svg {
     padding: 7px;
+    fill: ${({ colorFill }) => colorFill};
   }
 
   &:hover {
