@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 export const StandardInput = ({
   label,
@@ -8,6 +9,7 @@ export const StandardInput = ({
   style,
   width,
   onChange,
+  search,
 }) => {
   return (
     <form>
@@ -21,13 +23,22 @@ export const StandardInput = ({
           fontSize: "20px",
           marginLeft: "20px",
           borderRadius: "7px",
-          borderColor: " lightgray",
+          border: "lightgray",
           outline: "none",
         }}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        search
       />
     </form>
   );
 };
+
+const Input = styled.input`
+  ${(p) =>
+    p.search &&
+    css`
+      background-color: #eff3f4;
+    `}
+`;
