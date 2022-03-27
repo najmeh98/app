@@ -36,14 +36,15 @@ export default function LoginModal() {
         setloading(false);
         if (res?.username && res?.token) {
           Login({ username: res?.username, token: res?.token });
-          // router.push("./main/home");
+
+          router.push("/home");
         }
       })
       .catch((error) => {
         setError(error);
         setloading(false);
       });
-  }, [userName, userPassword, Login]);
+  }, [userName, userPassword, Login, router]);
 
   const HandleRegister = useCallback(() => {
     console.log(userName);
