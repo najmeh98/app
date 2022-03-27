@@ -43,9 +43,10 @@ import PopupContent from "../components/style/PopupContent";
 import { Tweet } from "../components/Tweet";
 import Link from "next/link";
 import Media from "../components/Media";
+import { ThemeContext, useTheme } from "../components/Theme/ThemeContext";
 
 export default function Home() {
-  const [tweets, setTweets] = useState();
+  const [tweets, setTweets] = useState([]);
   const [newTweet, setNewTweet] = useState("");
   const [activetweetId, setActivetweetId] = useState(); //ایدی توییت در استیت ذخیره میکنیم برای ریپلای و .. از همون ایدی استفاده میشه
   const [replyTweet, setReplyTweet] = useState("");
@@ -54,7 +55,7 @@ export default function Home() {
   const [popUp, setPopUp] = useState(false);
 
   const { isLogginedIn, userName, token } = useContext(AppContext);
-
+  let { theme } = useTheme();
   // برای یک توییت
   let activeTweet =
     tweets && tweets.find((tweet) => tweet.id === activetweetId);
@@ -74,7 +75,7 @@ export default function Home() {
   const handleReplyTweet = (id) => {
     //event.preventDefault();
     url = `edit/${ID}`;
-    SendPostrequest((data = { tweet: replyTweet }), url)
+    SendPostrequest(url, (data = { tweet: replyTweet }))
       .then((replyTweet) => {
         setshowReply((data) => [replyTweet, ...data]);
         console.log(replyTweet);
@@ -101,6 +102,7 @@ export default function Home() {
       console.log(error);
     }
   }, []);
+  console.log(tweets);
 
   // نشان دادن ریپلای
   useEffect(() => {
@@ -119,7 +121,7 @@ export default function Home() {
     event.preventDefault();
     url = "new";
     console.log(userName);
-    SendPostrequest((data = { tweet: newTweet }), url, token)
+    SendPostrequest((url, (data = { tweet: newTweet })), token)
       .then((newTweet) => {
         setTweets((list) => [newTweet, ...list]);
         console.log((list) => [newTweet, ...list]);
@@ -152,7 +154,7 @@ export default function Home() {
             </Button>
           </Header>
 
-          <Space vertical={20} />
+          <Space vertical={30} />
           <Container>
             <Avatar src="/images/girl.jpg" />
             <Flex>
@@ -187,18 +189,6 @@ export default function Home() {
 
             return (
               <div key={tweet.id}>
-                {/* <Item> */}
-                {/* <span
-                        onClick={() => {
-                          setPopUp(!popUp);
-                          setActivetweetId(tweet.id);
-                          // بجای اینکه ایدی در استیت باشه توییت در استیت میزاریم در پاپ اپ برای نمایش توییت استفاده میکنیم
-                        }}
-                      >
-                        <ReplyIcon />
-                      </span>
-                      <RetweetIcon />
-                      <LikeIcon /> */}
                 <Tweet
                   tweet={tweet}
                   onClick={() => {
@@ -211,26 +201,28 @@ export default function Home() {
                   tweetAuthor={tweet.author.username}
                   tweets={tweets}
                   tweetlink={link}
+                  createdAt={tweet.createdAt}
+                  setTweets={setTweets}
                 />
 
-                <StandardButton
+                {/* <StandardButton
                   onClick={() => handleDeletetweet(tweet.id)}
-                  //  style={{ display: "flex" }}
+                  // Delete tweet style={{ display: "flex" }}
                 >
                   Delete tweet
-                </StandardButton>
+                </StandardButton> */}
               </div>
             );
           })}
 
-        {showReply &&
+        {/* {showReply &&
           showReply.length !== 0 &&
           showReply.map((data, index) => (
             //console.log(reply);
             <ContentWrapper key={data.id} style={{ paddingLeft: "30px" }}>
               {data.text}
             </ContentWrapper>
-          ))}
+          ))} */}
       </Layout>
       {popUp && (
         <PopupContent
@@ -305,3 +297,19 @@ const Container = styled.div`
   grid-template-columns: auto 1fr;
   padding: 10px;
 `;
+{
+  /* <Item> */
+}
+{
+  /* <span
+                        onClick={() => {
+                          setPopUp(!popUp);
+                          setActivetweetId(tweet.id);
+                          // بجای اینکه ایدی در استیت باشه توییت در استیت میزاریم در پاپ اپ برای نمایش توییت استفاده میکنیم
+                        }}
+                      >
+                        <ReplyIcon />
+                      </span>
+                      <RetweetIcon />
+                      <LikeIcon /> */
+}
