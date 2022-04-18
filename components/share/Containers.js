@@ -2,8 +2,9 @@ import styled, { css } from "styled-components";
 import { desktop, notmobile } from "../utils/media";
 
 export const ContentWrapper = styled.div`
-  width: 1250px;
-  max-width: calc(100% - 40px);
+  max-width: 1250px;
+  width: 100%;
+  /* max-width: calc(100% - 40px); */
   margin: 0 auto;
   min-height: 100vh;
 `;
