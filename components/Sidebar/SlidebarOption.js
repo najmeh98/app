@@ -198,7 +198,8 @@ const Wrapper = styled.div`
 `;
 const Column = styled.div`
   align-items: flex-start;
-  width: 100%;
+  /* width: 100%; */
+  padding: 0px 20px;
   position: sticky;
   height: 100vh;
   justify-content: space-between;
