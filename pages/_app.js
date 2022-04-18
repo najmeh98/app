@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { UseAppManagerProvider } from "../components/AppContext";
-import { ThemeContext } from "../components/Theme/ThemeContext";
+import {
+  ThemeContext,
+  useTheme,
+  UseThemeManager,
+} from "../components/Theme/ThemeContext";
+import { darkTheme, lightTheme } from "../components/utils/theme";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -10,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
   a{
-    color: #1da1f2;
+    /* color: #1da1f2; */
   text-decoration: none;
   outline-style: none;
   }
@@ -31,17 +37,23 @@ const theme = {
 };
 
 export default function App({ Component, pageProps }) {
+  const [theme, setTheme] = useState(lightTheme);
+
+  // useEffect(() => {
+  //   setTheme(thememode.darkmode ? darkTheme : lightTheme);
+  // }, [theme, thememode.darkmode]);
+
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <ThemeContext.Provider>
+        <UseThemeManager>
           <UseAppManagerProvider>
             {getLayout(<Component {...pageProps} />)}
           </UseAppManagerProvider>
-        </ThemeContext.Provider>
+        </UseThemeManager>
       </ThemeProvider>
     </>
   );
